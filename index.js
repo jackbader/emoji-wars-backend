@@ -1,25 +1,28 @@
 const express = require("express");
 const http = require("http");
 const socketIo = require("socket.io");
-const cors = require("cors"); // Import cors
+const cors = require("cors");
+const dotenv = require("dotenv"); // Import dotenv
+
+// Load environment variables from .env file
+dotenv.config();
 
 const app = express();
 const server = http.createServer(app);
+
 const io = socketIo(server, {
   cors: {
-    origin: [
-      "http://localhost:5173",
-      "https://emoji-wars-e9ssw21sc-jba-pplications.vercel.app/",
-    ],
+    origin: process.env.FRONTEND_URL, // Use environment variable for CORS origin
     methods: ["GET", "POST"],
     credentials: true,
   },
 });
 
-// Enable CORS
+// Enable CORS with environment variable
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: process.env.FRONTEND_URL,
+    credentials: true,
   })
 );
 
@@ -42,6 +45,7 @@ io.on("connection", (socket) => {
   });
 });
 
-server.listen(4000, () => {
-  console.log("Server running on port 4000");
+const PORT = process.env.PORT || 4000;
+server.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
