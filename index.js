@@ -7,7 +7,10 @@ const app = express();
 const server = http.createServer(app);
 const io = socketIo(server, {
   cors: {
-    origin: "http://localhost:5173", // Allow requests from your frontend
+    origin: [
+      "http://localhost:5173",
+      "https://emoji-wars-e9ssw21sc-jba-pplications.vercel.app/",
+    ],
     methods: ["GET", "POST"],
     credentials: true,
   },
