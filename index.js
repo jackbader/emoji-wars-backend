@@ -14,7 +14,13 @@ const allowedOrigins = ["http://localhost:5173", process.env.FRONTEND_URL];
 
 const io = socketIo(server, {
   cors: {
-    origin: allowedOrigins, // Use environment variable for CORS origin
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     methods: ["GET", "POST"],
     credentials: true,
   },
