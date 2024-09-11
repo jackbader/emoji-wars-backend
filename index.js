@@ -12,7 +12,7 @@ const server = http.createServer(app);
 
 const io = socketIo(server, {
   cors: {
-    origin: process.env.FRONTEND_URL, // Use environment variable for CORS origin
+    origin: ["http://localhost:5173", process.env.FRONTEND_URL], // Use environment variable for CORS origin
     methods: ["GET", "POST"],
     credentials: true,
   },
